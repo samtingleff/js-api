@@ -1,0 +1,11 @@
+*.mk
+src/ct.html.js.with.crypto.and.sjcl
+aws-keys.json
+.project*
+.settings*
+node_modules*
+node_modules/*
+src/crypto-js/crypto.js
+.metadata/
+src/ct.html.min.js
+www/prod/*

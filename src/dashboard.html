@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CookieTrust Preferences Dashboard</title>
+<script src="ct.html.min.js"></script>
+</head>
+<body>
+
+	<div>
+		<h3>CookieTrust Preferences</h3>
+		<ul>
+			<li>
+				<input id="optin" type="radio" name="preference" value="0"> <span> Opt-In </span>
+			</li>
+			<li>
+				<input id="optout" type="radio" name="preference" value="1"> <span> Opt-Out </span>
+			</li>
+		</ul>
+	</div>	
+
+	
+	<script type="text/javascript">
+		window.onload = function() {
+			var ctidObject;
+			var preference;
+			if (window.localStorage) {
+				if (localStorage[CookieTrustCommons.ctIdKey]) {
+					ctidObject = JSON.parse(localStorage[CookieTrustCommons.ctIdKey]);	
+				}
+				else {
+					ctidObject = IframeCookieTrust.createIdentity();	
+				}
+				document.getElementById(ctidObject.preference == 0 ? "optin" : "optout").checked = true;
+				document.getElementById("optin").onclick = function () {
+					IframeCookieTrust.setIdentityPreference(0);
+				};
+				document.getElementById("optout").onclick = function () {
+					IframeCookieTrust.setIdentityPreference(1);			
+				}
+			};
+		}
+	</script>
+
+</body>
+</html>

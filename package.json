@@ -1,0 +1,16 @@
+{
+  "name": "ct",
+  "version": "1.0.0",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-qunit": "~0.2.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-lint-inline": "~0.2.0",
+    "grunt-shell": "~0.3.1",
+    "grunt-aws": "0.0.4",
+    "grunt-aws-s3": "~0.3.1"
+  }
+}

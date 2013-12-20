@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CookieTrust JS API v1 - Unit Tests</title>
+		<link rel="stylesheet" href="qunit/qunit-1.12.0.css">
+		<script src="../prod/v1/ct.js"></script>
+		<script src="../prod/v1/ct.html.js"></script>
+	</head>
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+		<script src="qunit/qunit-1.12.0.js"></script>
+		<script>
+		
+			// CT iframe
+			var ctIframe;
+					
+			// Create browser compatible event handler
+			var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+			var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+			var eventHandler = window[eventMethod];
+	
+			// Listen to messages from child window
+			eventHandler(messageEvent, function(event) {
+				if (event.origin !== CookieTrust.ctDomain) {
+					return;
+				}
+				var data = event.data;
+				var route = data.route ? data.route : JSON.parse(data).route;
+				try {
+					ok(true, "Event handler: Received response from " + event.origin + ": " +  route);
+					start();
+				}
+				catch (e) {
+					// IframeCookieTrust JS loaded.
+				}
+			}, false);
+			
+			test("CookieTrustCommons.utilities.getCookieValue", function () {
+				var now = new Date();
+				now.setTime(now.getTime() + 10000);
+				var cookieName = CryptoJS.lib.WordArray.random(16).toString()
+				var expectedValue = CryptoJS.lib.WordArray.random(8).toString();
+				document.cookie = cookieName + "=" + expectedValue + ";expires=" + now.toGMTString();
+				var actualValue = CookieTrustCommons.utilities.getCookieValue(cookieName); 
+				deepEqual(actualValue, expectedValue, "Cookie "+ cookieName + " value: " + actualValue);
+			});
+			
+			asyncTest("CookieTrust.utilities.insertCTIframe", function () {
+				ctIframe = CookieTrust.utilities.insertCTIframe();
+			});
+			
+			asyncTest("CookieTrust.utilities.sendMessageToCTIframe", function () {
+				ctIframe = CookieTrust.utilities.insertCTIframe();
+				CookieTrust.utilities.sendMessageToCTIframe(ctIframe.contentWindow, CookieTrustCommons.ctIdentityRequestRoute, "CTTests");		
+			});
+			
+			asyncTest("CookieTrust.Identity.getIdentity - from iframe", function () {
+				deleteIdentityCookie();
+				CookieTrust.Identity.getIdentity("CTTests", function (identity) {
+					ok(true, "Recevied Identity from iframe: " + identity);
+				});
+			});
+			
+			var deleteIdentityCookie = function () {
+				var now = new Date();
+				var time = now.getTime();
+				var expireTime = time - 1000*36000;
+				now.setTime(expireTime);
+				document.cookie = CookieTrustCommons.ctIdKey + '=on;expires='+now.toGMTString()+';path=/';
+			}
+			
+			test("CookieTrust.Identity.getIdentity - from cookie", function () {
+				var identity = CookieTrust.Identity.getIdentity("CTTests");
+				ok(identity, "Found Identity in cookie: " + JSON.stringify(identity));
+			});
+			
+			test("IframeCookieTrust.createIdentity", function () {
+				var identity = IframeCookieTrust.createIdentity();
+				ok(identity.id, "Identity created: " + identity.id);
+			});
+			
+			test("IframeCookieTrust.setIdentityPreference", function () {
+				if (!localStorage[CookieTrustCommons.ctIdKey]) {
+					IframeCookieTrust.createIdentity();
+				}
+				IframeCookieTrust.setIdentityPreference(0);
+				ok(!JSON.parse(localStorage[CookieTrustCommons.ctIdKey]).preference);
+				IframeCookieTrust.setIdentityPreference(1);
+				ok(JSON.parse(localStorage[CookieTrustCommons.ctIdKey]).preference);
+			});
+			
+		</script>
+	</body>
+</html>
