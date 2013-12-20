@@ -1,4 +1,4 @@
-ctv1
+CT v1 JS API
 ====
 
 Cookie Trust v1
