@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 		qunit : {
 			all : {
 				options : {
-					urls : [ "http://cookietrust.org/tests/CtTests.html" ]
+					urls : [ "http://cdn.cookietrust.org/tests/CtTests.html" ]
 				}
 			}
 		},
@@ -83,8 +83,8 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			src: {
-				files: ['<%= src/**'],
-				tasks: ['default']
+				files: ['src/**'],
+				tasks: ['jshint', 'concat:ctjs']
 			}
 		},
 		server: {
@@ -107,18 +107,26 @@ module.exports = function(grunt) {
 	grunt.loadTasks('./tasks');
 
 	// Default task(s).
-	grunt.registerTask("default", [ "clean", "jshint", "concat:ctjs",
-			"qunit" ]);
-	grunt.registerTask("build", [ "clean", "jshint", "concat:ctjs",
-			"qunit", "uglify", "concat:cthtml" ]);
-	grunt.registerTask("deploy", [ "clean", "jshint", "concat:ctjs",
-			"uglify", "concat:cthtml", "aws_s3" ]);
-	grunt.registerTask('dev', [
-		'clean', 
-		'jshint', 
+	grunt.registerTask('default', ['build-unminified']);
+
+	grunt.registerTask('build-unminified', [
+		'clean',
+		'jshint',
 		'concat:ctjs',
-		'server',
-		'watch'
+		'server', 
+		'qunit'
 	]);
 
+	grunt.registerTask('build', [
+		'build-unminified',
+		'uglify', 
+		'concat:cthtml'
+	]);
+
+	grunt.registerTask('dev', [
+		'build-unminified',
+		'watch'
+	]);
+	
+	grunt.registerTask('deploy', [ 'build', 'aws_s3']);
 };
