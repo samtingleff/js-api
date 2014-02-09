@@ -47,7 +47,9 @@ var IframeCookieTrust = IframeCookieTrust || (function () {
 	
 	var seedArray = function () {
 		if (window && window.crypto && window.crypto.getRandomValues) {
-			return window.crypto.getRandomValues(new Int32Array(8));
+			var arr = new Int32Array(8);
+			window.crypto.getRandomValues(arr);
+			return arr;
 		} else {
 			var date = new Date(); 
 			var stringToHash = 
@@ -63,8 +65,9 @@ var IframeCookieTrust = IframeCookieTrust || (function () {
 	};
 	
 	var m = new MersenneTwister();
+	console.log(10,  window.crypto.getRandomValues(new Int32Array(8)));
 	m.init_by_array(seedArray(), 8);
-	
+	console.log(20);
 	var getIdentityFromLocalStorage =  function () {
 		var ctidObject = null;
 		var ctidObjectInLocalStorage = null;
