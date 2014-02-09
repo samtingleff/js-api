@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 		qunit : {
 			all : {
 				options : {
-					urls : [ "http://cookietrust.org/tests/CtTests.html" ]
+					urls : [ "http://cdn.cookietrust.org/tests/CtTests.html" ]
 				}
 			}
 		},
@@ -80,6 +80,18 @@ module.exports = function(grunt) {
 					dest : "prod/v1/"
 				} ]
 			}
+		},
+		watch: {
+			src: {
+				files: ['src/**'],
+				tasks: ['jshint', 'concat:ctjs']
+			}
+		},
+		server: {
+			test: {
+				root: __dirname + '/www',
+				port: 80 
+			}
 		}
 	});
 
@@ -88,16 +100,33 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-concat");
+	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-contrib-qunit");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks('grunt-aws-s3');
+	grunt.loadTasks('./tasks');
 
 	// Default task(s).
-	grunt.registerTask("default", [ "clean", "jshint", "concat:ctjs",
-			"qunit" ]);
-	grunt.registerTask("build", [ "clean", "jshint", "concat:ctjs",
-			"qunit", "uglify", "concat:cthtml" ]);
-	grunt.registerTask("deploy", [ "clean", "jshint", "concat:ctjs",
-			"uglify", "concat:cthtml", "aws_s3" ]);
+	grunt.registerTask('default', ['build-unminified']);
 
+	grunt.registerTask('build-unminified', [
+		'clean',
+		'jshint',
+		'concat:ctjs',
+		'server', 
+		'qunit'
+	]);
+
+	grunt.registerTask('build', [
+		'build-unminified',
+		'uglify', 
+		'concat:cthtml'
+	]);
+
+	grunt.registerTask('dev', [
+		'build-unminified',
+		'watch'
+	]);
+	
+	grunt.registerTask('deploy', [ 'build', 'aws_s3']);
 };

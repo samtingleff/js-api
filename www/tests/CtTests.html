@@ -12,10 +12,11 @@
 		<div id="qunit-fixture"></div>
 		<script src="qunit/qunit-1.12.0.js"></script>
 		<script>
-		
+			QUnit.config.testTimeout = 2000;
+			
 			// CT iframe
 			var ctIframe;
-					
+
 			// Create browser compatible event handler
 			var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 			var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
@@ -90,7 +91,6 @@
 				IframeCookieTrust.setIdentityPreference(1);
 				ok(JSON.parse(localStorage[CookieTrustCommons.ctIdKey]).preference);
 			});
-			
 		</script>
 	</body>
 </html>
