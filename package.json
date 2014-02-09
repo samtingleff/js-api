@@ -1,5 +1,6 @@
 {
   "name": "ct",
+  "private": true,
   "version": "1.0.0",
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -11,9 +12,7 @@
     "grunt-lint-inline": "~0.2.0",
     "grunt-shell": "~0.3.1",
     "grunt-aws": "0.0.4",
-    "grunt-aws-s3": "~0.3.1"
-  },
-  "dependencies": {
+    "grunt-aws-s3": "~0.3.1",
     "express": "~3.4.8",
     "grunt-contrib-watch": "~0.5.3"
   }
