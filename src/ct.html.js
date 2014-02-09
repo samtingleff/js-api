@@ -65,9 +65,7 @@ var IframeCookieTrust = IframeCookieTrust || (function () {
 	};
 	
 	var m = new MersenneTwister();
-	console.log(10,  window.crypto.getRandomValues(new Int32Array(8)));
 	m.init_by_array(seedArray(), 8);
-	console.log(20);
 	var getIdentityFromLocalStorage =  function () {
 		var ctidObject = null;
 		var ctidObjectInLocalStorage = null;
