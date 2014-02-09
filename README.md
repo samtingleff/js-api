@@ -5,6 +5,15 @@ Cookie Trust v1
 
 https://github.com/samtingleff/js-api
 
+# Development
+- Add example.com and cdn.cookietrust.org to your hosts file and have them point to 127.0.0.1
+- Install NodeJS
+- Execute `npm install -g grunt-cli` to install Grunt
+- Clone this repository
+- Execute `npm install` at the root of the repository
+- Execute `grunt dev`
+- Go to http://example.com
+
 Deployment:
 - You will need to run grunt to build the project.
 - Execute the following in the same directory as your Gruntfile.js:
