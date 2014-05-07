@@ -11,7 +11,7 @@ https://github.com/samtingleff/js-api
 - Execute `npm install -g grunt-cli` to install Grunt
 - Clone this repository
 - Execute `npm install` at the root of the repository
-- Execute `echo "{}" >> aws-keys.json`
+- Execute `echo "{}" >> aws-config.json`
 
 ## Development
 - Execute `grunt dev` at the root of the repository
@@ -20,10 +20,12 @@ https://github.com/samtingleff/js-api
 Note that as you modify the files in src, the build engine will automatically rebuild the static files.
 
 ## Production Deployment
-- Create a file aws-keys.json like
+- Create a file aws-config.json like
 ```{
- "AWSAccessKeyId":"foo",
- "AWSSecretKey":"bar"
+ "AWSAccessKeyId": "foo",
+ "AWSSecretKey": "bar",
+ "bucket": "my-bucket-name",
+ "env": "dev"
 }```
 - Execute "grunt deploy"
 

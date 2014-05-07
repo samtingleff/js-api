@@ -1,45 +1,64 @@
-<!DOCTYPE html>
 <html>
-<head>
-<title>CookieTrust Preferences Dashboard</title>
-<script src="ct.html.min.js"></script>
-</head>
-<body>
+ <head>
+  <title></title>
+  <style type="text/css" media="all">
+   @import "forms.css";
+  </style>
+  <script type="text/javascript" src="${script.source}"></script>
+  <script type="text/javascript" src="${iframe.script.source}"></script>
+ </head>
+ <body>
 
-	<div>
-		<h3>CookieTrust Preferences</h3>
-		<ul>
-			<li>
-				<input id="optin" type="radio" name="preference" value="0"> <span> Opt-In </span>
-			</li>
-			<li>
-				<input id="optout" type="radio" name="preference" value="1"> <span> Opt-Out </span>
-			</li>
-		</ul>
-	</div>	
+  <form id="verticalForm">
+   <fieldset>
+    <legend>Privacy Preferences</legend>
+    <fieldset class="radio">
+     <legend>Usage of the DigiTrust ID</legend>
+     <label for="preference">
+      Opt In
+      <input type="radio" id="optin" name="preference" value="0">
+     </label>
+     <label for="opt-out">
+      Opt Out
+      <input type="radio" id="optout" name="preference" value="1">
+     </label>
+     <input type="button" id="submit-button" name="button" value="Save" onClick="savePreferences(this.form)"/>
+    </fieldset>
+   </fieldset>
+  </form>
 
-	
-	<script type="text/javascript">
-		window.onload = function() {
-			var ctidObject;
-			var preference;
-			if (window.localStorage) {
-				if (localStorage[CookieTrustCommons.ctIdKey]) {
-					ctidObject = JSON.parse(localStorage[CookieTrustCommons.ctIdKey]);	
-				}
-				else {
-					ctidObject = IframeCookieTrust.createIdentity();	
-				}
-				document.getElementById(ctidObject.preference == 0 ? "optin" : "optout").checked = true;
-				document.getElementById("optin").onclick = function () {
-					IframeCookieTrust.setIdentityPreference(0);
-				};
-				document.getElementById("optout").onclick = function () {
-					IframeCookieTrust.setIdentityPreference(1);			
-				}
-			};
-		}
-	</script>
+  <script type="text/javascript">
+   document.getElementById("submit-button").disabled = true;
+   var identity = null;
+   function savePreferences (form) {
+    var val = form.preference;
+    var selectedIndex = 0;
+    for (var index = 0; index < 2; ++index) {
+     if (val[index].checked) {
+      selectedIndex = index;
+     }
+    }
+    var pref = val[selectedIndex].value;
+    if (identity && (pref === "0")) {
+     IframeDigiTrust.optIn();
+    } else if (identity && (pref === "1")) {
+     IframeDigiTrust.optOut();
+    }
+   };
+   DigiTrust.getIdentityAsync({"member":"digitru.st"}, function(identityResponse) {
+    if (identityResponse.success && identityResponse.identity) {
+     identity = identityResponse.identity;
+     try {
+      if (identity.privacy.optout) {
+       document.getElementById("optout").checked = true;
+      } else {
+       document.getElementById("optin").checked = true;
+      }
+      document.getElementById("submit-button").disabled = false;
+     } catch(err) { console.log(err); }
+    }
+   });
+  </script>
 
-</body>
+ </body>
 </html>

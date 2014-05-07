@@ -1,9 +1,0 @@
-/**
- * Notify parent that iframe is ready.
- */
-window.onload = function() {
-	IframeCookieTrust.sendMessageToParent(IframeCookieTrust.createIframeReadyMessage());
-};
-</script>
-</body>
-</html>

@@ -1,0 +1,13 @@
+/**
+ * Notify parent that iframe is ready.
+ */
+window.onload = function() {
+ // register messageRouter() for postMessage events
+ DigiTrustCommons.getPostMessageListener(IframeDigiTrust.messageRouter)();
+
+ // send a message to parent that this iframe is loaded
+ IframeDigiTrust.sendMessageToParent(IframeDigiTrust.createIframeReadyMessage());
+};
+</script>
+</body>
+</html>

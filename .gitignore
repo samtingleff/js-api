@@ -1,11 +1,7 @@
-*.mk
-src/ct.html.js.with.crypto.and.sjcl
-aws-keys.json
-.project*
-.settings*
+src/dt.config.js
+deployments/
+deployment-config.json
 node_modules*
 node_modules/*
-src/crypto-js/crypto.js
-.metadata/
 src/ct.html.min.js
 www/prod/*

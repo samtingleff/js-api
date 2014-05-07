@@ -1,0 +1,15 @@
+    <html>
+     <head>
+      <script type="text/javascript" src="//cdn.digitru.st/prod/v1/dt.js"></script>
+     </head>
+     <body>
+      <script type="text/javascript">
+       DigiTrust.getIdentityAsync({"member":"TZhZrXc1"}, function(response) {
+        if (response.success && response.identity) {
+         document.write("DigiTrust ID: " + response.identity.id);
+        }
+       });
+      </script>
+     </body>
+    </html>
+

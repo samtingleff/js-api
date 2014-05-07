@@ -1,0 +1,28 @@
+    <html>
+     <head>
+     </head>
+     <body>
+      <script type="text/javascript">
+       function loadJS(src, callback) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = true;
+        s.onreadystatechange = s.onload = function() {
+         var state = s.readyState;
+         if (!callback.done && (!state || /loaded|complete/.test(state))) {
+          callback.done = true;
+          callback();
+         }
+        };
+        document.getElementsByTagName('head')[0].appendChild(s);
+       }
+       loadJS('http://cdn.digitru.st/prod/v1/dt.js', function() {
+        DigiTrust.getIdentityAsync({"member":"TZhZrXc1"}, function(response) {
+         if (response.success && response.identity) {
+          document.write("DigiTrust ID: " + response.identity.id);
+         }
+        });
+       });
+      </script>
+     </body>
+    </html>
