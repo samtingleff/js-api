@@ -11,7 +11,7 @@ https://github.com/samtingleff/js-api
 - Execute `npm install -g grunt-cli` to install Grunt
 - Clone this repository
 - Execute `npm install` at the root of the repository
-- Execute `echo "{}" >> aws-config.json`
+- Execute `echo "{}" >> deployment-config.json`
 
 ## Development
 - Execute `grunt dev` at the root of the repository
