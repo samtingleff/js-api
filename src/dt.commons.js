@@ -63,8 +63,8 @@ var DigiTrustCommons = DigiTrustCommons || (function () {
      "=" + serializedIdentity + "; " +
      "max-age=" + DigiTrustCommons.dtMaxCookieAge + "; " +
      "path=/";
-   if (identity && identity.domain) {
-    cookieStr = cookieStr + "; domain=" + identity.domain;
+   if (identity && args && args.domain) {
+    cookieStr = cookieStr + "; domain=" + args.domain;
    }
    document.cookie = cookieStr;
   }

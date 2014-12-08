@@ -133,7 +133,7 @@
 				ok(el.getAttribute("height") === "0");
 				ok(el.getAttribute("width") === "0");
 				equal(el.getAttribute("src"),
-					"//i.digitru.st:8080/i/stats/usage?member=member-id-foo&token=test&dtid=bece59c3a6eedd20");
+					"//i.digitru.st/i/stats/usage?member=member-id-foo&token=test&dtid=bece59c3a6eedd20");
 			});
 
 			module("IframeDigiTrust", {
@@ -194,6 +194,7 @@
 				var expireTime = new Date();
 				expireTime.setTime(expireTime.getTime() - 1000*36000);
 				document.cookie = "DigiTrust.Identity.v1=; domain=digitru.st; path=/; expires=" + expireTime.toGMTString();
+				document.cookie = "DigiTrust.Identity.v1=; path=/; expires=" + expireTime.toGMTString();
 			};
 
 			/*asyncTest("CookieTrust.utilities.insertCTIframe", function () {

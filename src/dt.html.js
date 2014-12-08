@@ -160,7 +160,7 @@ var IframeDigiTrust = IframeDigiTrust || (function () {
   // if none found, write the received value
   if (identity === null) {
    identity = remoteIdentity;
-   DigiTrustCommons.writeLocalIdentity(identity, {cookies:true});
+   //DigiTrustCommons.writeLocalIdentity(identity, {cookies:true});
   }
   sendIdentityResponse(identity);
  };

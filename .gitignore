@@ -1,3 +1,4 @@
+.DS_Store
 src/dt.config.js
 deployments/
 deployment-config.json
